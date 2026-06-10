@@ -24,13 +24,13 @@ spring:
           predicates:
             - Path=/api/catalogo/**
 
-        # 2. PostgreSQL (Soporte TI - El requisito del profe)
+        # 2. PostgreSQL (Soporte Ti)
         - id: soporte-service
           uri: http://localhost:8083
           predicates:
             - Path=/api/soporte/**
 
-        # 3. MySQL (Monolito principal) - Siempre al final para que atrape todo el resto del tráfico
+        # 3. MySQL (Monolito principal)
         - id: backend-service
           uri: http://localhost:8081
           predicates:

@@ -200,16 +200,18 @@ public class ProductoService {
 
     @Transactional(readOnly = true)
     public String migrarDatosHistoricosAMongo() {
-        // 1. Buscamos TODOS los productos en MySQL
-        List<Producto> todosLosProductos = productoRepo.findAll();
-        int contador = 0;
+        List<Producto> todos = productoRepo.findAll();
+        int exito = 0, fallo = 0;
 
-        // 2. Por cada producto, usamos el puente para enviarlo a Mongo
-        for (Producto p : todosLosProductos) {
-
-            sincronizarConMongo(p);
-            contador++;
+        for (Producto p : todos) {
+            try {
+                sincronizarConMongo(p);
+                exito++;
+            } catch (Exception e) {
+                fallo++;
+                System.err.println("Falló: " + p.getSku() + " — " + e.getMessage());
+            }
         }
-        return "Migración completada. Se enviaron " + contador + " productos a MongoDB (Activos e Inactivos).";
+        return "Migración completada. Éxito: " + exito + ", Fallos: " + fallo;
     }
 }

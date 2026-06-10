@@ -28,6 +28,15 @@ public class ProductoController {
     }
     @PostMapping
     public ResponseEntity<Producto> crear(@RequestBody Producto producto) {
+        // Upsert por SKU — si ya existe lo actualiza, si no lo crea
+        Producto existente = productoRepo.findBySku(producto.getSku()).orElse(null);
+        if (existente != null) {
+            existente.setNombre(producto.getNombre());
+            existente.setPrecio(producto.getPrecio());
+            existente.setCategoria(producto.getCategoria());
+            existente.setActivo(producto.isActivo());
+            return ResponseEntity.ok(productoRepo.save(existente));
+        }
         return ResponseEntity.ok(productoRepo.save(producto));
     }
 
