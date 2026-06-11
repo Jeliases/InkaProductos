@@ -20,18 +20,18 @@ spring:
       routes:
         # 1. MongoDB (Catálogo rápido)
         - id: catalogo-service
-          uri: http://inka-catalogo:8082
+          uri: http://localhost:8082
           predicates:
             - Path=/api/catalogo/**
 
-        # 2. PostgreSQL (Soporte TI )
+        # 2. PostgreSQL (Soporte TI - El requisito del profe)
         - id: soporte-service
-          uri: http://inka-soporte:8083
+          uri: http://localhost:8083
           predicates:
             - Path=/api/soporte/**
 
-        # 3. MySQL (Monolito principal)
+        # 3. MySQL (Monolito principal) - Siempre al final para que atrape todo el resto del tráfico
         - id: backend-service
-          uri: http://inka-backend:8081
+          uri: http://localhost:8081
           predicates:
             - Path=/api/**

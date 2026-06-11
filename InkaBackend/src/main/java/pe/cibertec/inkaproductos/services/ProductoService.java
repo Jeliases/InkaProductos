@@ -179,7 +179,7 @@ public class ProductoService {
     private void sincronizarConMongo(Producto productoGuardado) {
         try {
             RestTemplate restTemplate = new RestTemplate();
-            String url = "http://inka-catalogo:8082/api/catalogo/productos";
+            String url = "http://localhost:8082/api/catalogo/productos";
 
             Map<String, Object> mongoPayload = new HashMap<>();
             mongoPayload.put("sku", productoGuardado.getSku());
@@ -202,15 +202,14 @@ public class ProductoService {
     public String migrarDatosHistoricosAMongo() {
         // 1. Buscamos TODOS los productos en MySQL
         List<Producto> todosLosProductos = productoRepo.findAll();
-
-        //testing error
-        System.out.println(">>> SE ENCONTRARON " + todosLosProductos.size() + " PRODUCTOS EN MYSQL <<<");
-
         int contador = 0;
+
+        // 2. Por cada producto, usamos el puente para enviarlo a Mongo
         for (Producto p : todosLosProductos) {
+
             sincronizarConMongo(p);
             contador++;
         }
-        return "Migración completada. Se enviaron " + contador + " productos.";
+        return "Migración completada. Se enviaron " + contador + " productos a MongoDB (Activos e Inactivos).";
     }
 }
