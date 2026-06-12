@@ -10,28 +10,26 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOrigins: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
+            allowedMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
             allowedHeaders: "*"
+            allowedCredentials: true
       routes:
-        # 1. MongoDB (Catálogo rápido)
+        # 1. Catálogo (Mongo)
         - id: catalogo-service
-          uri: http://localhost:8082
+          uri: http://inka-catalogo:8082  # USAR NOMBRE DE SERVICIO
           predicates:
             - Path=/api/catalogo/**
 
-        # 2. PostgreSQL (Soporte TI - El requisito del profe)
+        # 2. Soporte (Postgres)
         - id: soporte-service
-          uri: http://localhost:8083
+          uri: http://inka-soporte:8083   # USAR NOMBRE DE SERVICIO
           predicates:
             - Path=/api/soporte/**
 
-        # 3. MySQL (Monolito principal) - Siempre al final para que atrape todo el resto del tráfico
+        # 3. Backend (MySQL) - ¡OJO AQUÍ!
+        # Si tu login está en /api/auth, esto DEBE enviarlo al backend
         - id: backend-service
-          uri: http://localhost:8081
+          uri: http://inka-backend:8081    # USAR NOMBRE DE SERVICIO
           predicates:
-            - Path=/api/**
+            - Path=/api/** ```
+

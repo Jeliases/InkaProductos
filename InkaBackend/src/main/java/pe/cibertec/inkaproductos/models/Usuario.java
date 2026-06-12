@@ -9,7 +9,9 @@ public class Usuario {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long usuarioId;
     private String nombre;
+    @Column(name = "email")
     private String email;
+    @Column(name = "password_hash")
     private String passwordHash;
     private boolean enabled = true;
 

@@ -18,7 +18,10 @@ public class AuthController {
         try {
             return ResponseEntity.ok(authService.login(req));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            // Muestra el error en la terminal del backend
+            e.printStackTrace();
+            // Devuelve el mensaje real en lugar de un código genérico
+            return ResponseEntity.status(400).body("Error en el login: " + e.getMessage());
         }
     }
 }
