@@ -35,7 +35,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/stock/eventos").permitAll()
-                        .requestMatchers("/ws/").permitAll()
+                        .requestMatchers("/ws/**", "/ws/almacenes.wsdl").permitAll()
 
                         // --- REGLAS DE PRODUCTOS ---
                         .requestMatchers(HttpMethod.GET, "/api/productos", "/api/productos/**").hasAnyRole("ADMIN", "SUPERVISOR", "USUARIO")
@@ -47,6 +47,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/solicitudes/*/aprobar", "/api/solicitudes/*/rechazar", "/api/solicitudes/pendientes").hasAnyRole("ADMIN", "SUPERVISOR")
                         .requestMatchers(HttpMethod.POST, "/api/solicitudes").hasAnyRole("ADMIN", "SUPERVISOR", "USUARIO")
                         .requestMatchers("/api/solicitudes/mis").hasAnyRole("ADMIN", "SUPERVISOR", "USUARIO")
+
+                        // --- REGLAS DE SOPORTE (TICKETS) ---
+                        .requestMatchers(HttpMethod.POST, "/api/soporte/mensajes").hasRole("SUPERVISOR")
+                        .requestMatchers(HttpMethod.GET, "/api/soporte/mensajes/mis-tickets").hasRole("SUPERVISOR")
+                        .requestMatchers(HttpMethod.PATCH, "/api/soporte/mensajes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/soporte/mensajes").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )

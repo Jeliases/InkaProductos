@@ -13,9 +13,14 @@ public class MensajeTi {
     private String emisorEmail;
     private String asunto;
     private String contenido;
+
+
+    private String categoria;
+    private String estado = "ABIERTO";
+
     private LocalDateTime fechaEnvio = LocalDateTime.now();
 
-    // Genera los Getters y Setters (o usa @Data de Lombok si lo agregaste)
+    // Getters y Setters
     public Integer getMensajeId() { return mensajeId; }
     public void setMensajeId(Integer mensajeId) { this.mensajeId = mensajeId; }
     public String getEmisorEmail() { return emisorEmail; }
@@ -24,6 +29,10 @@ public class MensajeTi {
     public void setAsunto(String asunto) { this.asunto = asunto; }
     public String getContenido() { return contenido; }
     public void setContenido(String contenido) { this.contenido = contenido; }
+    public String getCategoria() { return categoria; }
+    public void setCategoria(String categoria) { this.categoria = categoria; }
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
     public LocalDateTime getFechaEnvio() { return fechaEnvio; }
     public void setFechaEnvio(LocalDateTime fechaEnvio) { this.fechaEnvio = fechaEnvio; }
 }
