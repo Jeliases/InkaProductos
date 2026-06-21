@@ -8,7 +8,7 @@ import lombok.Data;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UnidadMedida {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer uomId;
+    private Short uomId;
     private String codigo;
     private String descripcion;
 }

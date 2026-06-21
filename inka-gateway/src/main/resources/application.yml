@@ -9,27 +9,28 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "*"
-            allowedMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-            allowedHeaders: "*"
-            allowedCredentials: true
+            allowedOrigins:
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+              - PATCH
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
       routes:
-        # 1. Catálogo (Mongo)
         - id: catalogo-service
-          uri: http://inka-catalogo:8082  # USAR NOMBRE DE SERVICIO
+          uri: http://inka-catalogo:8082
           predicates:
             - Path=/api/catalogo/**
-
-        # 2. Soporte (Postgres)
         - id: soporte-service
-          uri: http://inka-soporte:8083   # USAR NOMBRE DE SERVICIO
+          uri: http://inka-soporte:8083
           predicates:
             - Path=/api/soporte/**
-
-        # 3. Backend (MySQL) - ¡OJO AQUÍ!
-        # Si tu login está en /api/auth, esto DEBE enviarlo al backend
         - id: backend-service
-          uri: http://inka-backend:8081    # USAR NOMBRE DE SERVICIO
+          uri: http://inka-backend:8081
           predicates:
-            - Path=/api/** ```
-
+            - Path=/api/**

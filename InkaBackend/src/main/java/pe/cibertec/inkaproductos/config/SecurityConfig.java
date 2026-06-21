@@ -11,7 +11,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pe.cibertec.inkaproductos.security.JwtFilter;
+
+import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
@@ -27,15 +32,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Desactivar CSRF
+                // Habilitamos CORS aquí para que Spring sepa cómo responder al navegador
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // --- PÚBLICOS ---
                         .requestMatchers("/api/productos/migrar-historico").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/stock/eventos").permitAll()
                         .requestMatchers("/ws/**", "/ws/almacenes.wsdl").permitAll()
+
 
                         // --- REGLAS DE PRODUCTOS ---
                         .requestMatchers(HttpMethod.GET, "/api/productos", "/api/productos/**").hasAnyRole("ADMIN", "SUPERVISOR", "USUARIO")
@@ -53,6 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/soporte/mensajes/mis-tickets").hasRole("SUPERVISOR")
                         .requestMatchers(HttpMethod.PATCH, "/api/soporte/mensajes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/soporte/mensajes").hasRole("ADMIN")
+                        .requestMatchers("/api/soporte/**").permitAll()
 
                         .anyRequest().authenticated()
                 )
@@ -60,4 +67,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }
